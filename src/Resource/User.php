@@ -399,4 +399,46 @@ class User extends Base
 
         return $request->send();
     }
+
+    /**
+     * Gets a user's IdP information.
+     *
+     * Lists the IdPs associated with the user.
+     *
+     * @param string $uid
+     *   An Okta user ID.
+     *
+     * @return array
+     *   An array of IdPs linked to the user.
+     */
+    public function getIdps($uid)
+    {
+        $request = $this->request->get('users/' . $uid . '/idps');
+
+        return $request->send();
+    }
+
+    /**
+     * Unlinks a user from an IdP.
+     *
+     * Removes the link between the Okta user and the IdP user. The next time
+     * the user federates into Okta via this IdP, they have to re-link their
+     * account according to the account link policy configured in Okta for this
+     * IdP.
+     *
+     * @param string $idpId
+     *   The ID of the IdP to unlink
+     * @param string $uid
+     *   An Okta user ID.
+     *
+     * @return object
+     *   Decoded API response object.
+     */
+    public function unlinkIdp($idpId, $uid)
+    {
+        $request = $this->request->delete('idps/' . $idpId . '/users/' . $uid);
+
+        return $request->send();
+    }
+
 }
