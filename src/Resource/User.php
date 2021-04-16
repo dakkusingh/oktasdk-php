@@ -17,14 +17,17 @@ class User extends Base
      * @param  array   $provider    Array of authentication provider properties
      * @param  boolean $activate    Weather or not to execute activation
      *                              lifecycle operation when creating the user
+     * @param  array   $groupIds    Array of group ID's to assign the user on creation.
      *
      * @return object               User model object
      */
-    public function create(array $profile, array $credentials = null, array $provider = null, $activate = null)
+    public function create(array $profile, array $credentials = null, array $provider = null, $activate = null, array $groupIds = null)
     {
         $request = $this->request->post('users');
 
         $request->data(['profile' => $profile]);
+
+        if (isset($groupIds)) $request->data(['groupIds' => $groupIds]);
 
         if (isset($credentials)) $request->data(['credentials' => $credentials]);
 
